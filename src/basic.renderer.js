@@ -14,7 +14,7 @@
         // You should implement your inside test here for all shapes
         // for now, it only returns a false test
 
-        return false
+        return true
     }
 
 
@@ -31,18 +31,20 @@
             // Possible preprocessing with scene primitives, for now we don't change anything
             // You may define bounding boxes, convert shapes, etc
 
-            var preprop_scene = [];
-
-            for (var primitive of scene) {
-                // do some processing
-                // for now, only copies each primitive to a new list
-
-                preprop_scene.push(primitive);
-
+            for (const primitive of scene) {
+                const boundingBox = {lowerX: Infinity, upperX: 0, lowerY: Infinity, upperY: 0}
+                for (const vertice of primitive.vertices) {
+                    const x = vertice[0]
+                    const y = vertice[1]
+                    if (x < boundingBox.lowerX) boundingBox.lowerX = x
+                    if (x > boundingBox.upperX) boundingBox.upperX = x
+                    if (y < boundingBox.lowerY) boundingBox.lowerY = y
+                    if (y > boundingBox.upperY) boundingBox.upperY = y
+                }
+                primitive.boundingBox = boundingBox
             }
 
-
-            return preprop_scene;
+            return scene;
         },
 
         createImage: function () {
@@ -57,9 +59,9 @@
 
                 // Loop through all pixels
                 // Use bounding boxes in order to speed up this loop
-                for (var i = 0; i < this.width; i++) {
+                for (var i = primitive.boundingBox.lowerX; i <= primitive.boundingBox.upperX; i++) {
                     var x = i + 0.5;
-                    for (var j = 0; j < this.height; j++) {
+                    for (var j = primitive.boundingBox.lowerY; j <= primitive.boundingBox.upperY; j++) {
                         var y = j + 0.5;
 
                         // First, we check if the pixel center is inside the primitive
