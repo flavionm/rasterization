@@ -13,6 +13,13 @@
     function inside(x, y, primitive) {
         // You should implement your inside test here for all shapes
         // for now, it only returns a false test
+        for (var i = 0; i < primitive.vertices.length; i++) {
+            const nextI = (i + 1) % primitive.vertices.length;
+            const normalX = primitive.vertices[i][1] - primitive.vertices[nextI][1];
+            const normalY = primitive.vertices[nextI][0] - primitive.vertices[i][0];
+            const position = (x - primitive.vertices[i][0])*normalX + (y - primitive.vertices[i][1])*normalY;
+            if (position < 0) return false;
+        }
 
         return true
     }
@@ -51,8 +58,8 @@
                     for (var i = 0; i < partitions; i++) {
                         const firstX = Math.round(primitive.radius * Math.sin(2*i*Math.PI/partitions) + primitive.center[0]);
                         const firstY = Math.round(primitive.radius * Math.cos(2*i*Math.PI/partitions) + primitive.center[1]);
-                        const secondX = Math.round(primitive.radius * Math.sin(2*(i+1)*Math.PI/partitions) + primitive.center[0]);
-                        const secondY = Math.round(primitive.radius * Math.cos(2*(i+1)*Math.PI/partitions) + primitive.center[1]);
+                        const secondX = Math.round(primitive.radius * Math.sin(2*(i-1)*Math.PI/partitions) + primitive.center[0]);
+                        const secondY = Math.round(primitive.radius * Math.cos(2*(i-1)*Math.PI/partitions) + primitive.center[1]);
                         const triangle = {
                             shape: "triangle",
                             vertices: [primitive.center, [firstX, firstY], [secondX, secondY]],
