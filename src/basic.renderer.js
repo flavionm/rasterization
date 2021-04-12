@@ -67,6 +67,17 @@
             }
 
             for (const primitive of preprocessedScene) {
+                if (primitive.xform !== undefined) {
+                    for (var i = 0; i < primitive.vertices.length; i++) {
+                        const point = nj.array([primitive.vertices[i][0], primitive.vertices[i][1], 1]);
+                        const transformation = nj.array(primitive.xform);
+                        const result = nj.dot(transformation, point.T);
+                        primitive.vertices[i] = [Math.round(result.get(0)), Math.round(result.get(1)), Math.round(result.get(2))];
+                    }
+                }
+            }
+
+            for (const primitive of preprocessedScene) {
                 const boundingBox = {lowerX: Infinity, upperX: 0, lowerY: Infinity, upperY: 0}
                 for (const vertice of primitive.vertices) {
                     const x = vertice[0]
