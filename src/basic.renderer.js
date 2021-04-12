@@ -17,7 +17,7 @@
             const nextI = (i + 1) % primitive.vertices.length;
             const normalX = primitive.vertices[i][1] - primitive.vertices[nextI][1];
             const normalY = primitive.vertices[nextI][0] - primitive.vertices[i][0];
-            const position = (x - primitive.vertices[i][0])*normalX + (y - primitive.vertices[i][1])*normalY;
+            const position = (x - primitive.vertices[i][0]) * normalX + (y - primitive.vertices[i][1]) * normalY;
             if (position < 0) return false;
         }
 
@@ -56,10 +56,10 @@
                 } else if (primitive.shape === "circle") {
                     const partitions = 3 * primitive.radius / 4;
                     for (var i = 0; i < partitions; i++) {
-                        const firstX = Math.round(primitive.radius * Math.sin(2*i*Math.PI/partitions) + primitive.center[0]);
-                        const firstY = Math.round(primitive.radius * Math.cos(2*i*Math.PI/partitions) + primitive.center[1]);
-                        const secondX = Math.round(primitive.radius * Math.sin(2*(i-1)*Math.PI/partitions) + primitive.center[0]);
-                        const secondY = Math.round(primitive.radius * Math.cos(2*(i-1)*Math.PI/partitions) + primitive.center[1]);
+                        const firstX = Math.round(primitive.radius * Math.sin(2 * i * Math.PI / partitions) + primitive.center[0]);
+                        const firstY = Math.round(primitive.radius * Math.cos(2 * i * Math.PI / partitions) + primitive.center[1]);
+                        const secondX = Math.round(primitive.radius * Math.sin(2 * (i - 1) * Math.PI / partitions) + primitive.center[0]);
+                        const secondY = Math.round(primitive.radius * Math.cos(2 * (i - 1) * Math.PI / partitions) + primitive.center[1]);
                         const triangle = {
                             shape: "triangle",
                             vertices: [primitive.center, [firstX, firstY], [secondX, secondY]],
@@ -85,16 +85,16 @@
             }
 
             for (const primitive of preprocessedScene) {
-                const boundingBox = {lowerX: Infinity, upperX: 0, lowerY: Infinity, upperY: 0}
+                const boundingBox = { lowerX: Infinity, upperX: 0, lowerY: Infinity, upperY: 0 }
                 for (const vertice of primitive.vertices) {
-                    const x = vertice[0]
-                    const y = vertice[1]
-                    if (x < boundingBox.lowerX) boundingBox.lowerX = x
-                    if (x > boundingBox.upperX) boundingBox.upperX = x
-                    if (y < boundingBox.lowerY) boundingBox.lowerY = y
-                    if (y > boundingBox.upperY) boundingBox.upperY = y
+                    const x = vertice[0];
+                    const y = vertice[1];
+                    if (x < boundingBox.lowerX) boundingBox.lowerX = x;
+                    if (x > boundingBox.upperX) boundingBox.upperX = x;
+                    if (y < boundingBox.lowerY) boundingBox.lowerY = y;
+                    if (y > boundingBox.upperY) boundingBox.upperY = y;
                 }
-                primitive.boundingBox = boundingBox
+                primitive.boundingBox = boundingBox;
             }
 
             return preprocessedScene;
