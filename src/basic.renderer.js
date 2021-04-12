@@ -40,19 +40,8 @@
             const preprocessedScene = []
 
             for (const primitive of scene) {
-                if (primitive.shape === "triangle") {
+                if (primitive.shape === "triangle" || primitive.shape === "polygon") {
                     preprocessedScene.push(primitive);
-                }
-                else if (primitive.shape === "polygon") {
-                    for (var i = 1; i <= primitive.vertices.length - 2; i++) {
-                        const triangle = {
-                            shape: "triangle",
-                            vertices: [primitive.vertices[0], primitive.vertices[i], primitive.vertices[i + 1]],
-                            color: primitive.color,
-                            xform: primitive.xform
-                        }
-                        preprocessedScene.push(triangle);
-                    }
                 } else if (primitive.shape === "circle") {
                     const partitions = 3 * primitive.radius / 4;
                     for (var i = 0; i < partitions; i++) {
