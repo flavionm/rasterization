@@ -46,6 +46,23 @@
                         }
                         preprocessedScene.push(triangle);
                     }
+                } else if (primitive.shape === "circle") {
+                    const partitions = 3 * primitive.radius / 4;
+                    for (var i = 0; i < partitions; i++) {
+                        const firstX = Math.round(primitive.radius * Math.sin(2*i*Math.PI/partitions) + primitive.center[0]);
+                        const firstY = Math.round(primitive.radius * Math.cos(2*i*Math.PI/partitions) + primitive.center[1]);
+                        const secondX = Math.round(primitive.radius * Math.sin(2*(i+1)*Math.PI/partitions) + primitive.center[0]);
+                        const secondY = Math.round(primitive.radius * Math.cos(2*(i+1)*Math.PI/partitions) + primitive.center[1]);
+                        const triangle = {
+                            shape: "triangle",
+                            vertices: [primitive.center, [firstX, firstY], [secondX, secondY]],
+                            color: primitive.color,
+                            xform: primitive.xform
+                        }
+                        preprocessedScene.push(triangle);
+                    }
+                } else {
+                    console.log("Invalid shape");
                 }
             }
 
