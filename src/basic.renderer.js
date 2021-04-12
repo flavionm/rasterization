@@ -30,8 +30,26 @@
         preprocess: function (scene) {
             // Possible preprocessing with scene primitives, for now we don't change anything
             // You may define bounding boxes, convert shapes, etc
+            const preprocessedScene = []
 
             for (const primitive of scene) {
+                if (primitive.shape === "triangle") {
+                    preprocessedScene.push(primitive);
+                }
+                else if (primitive.shape === "polygon") {
+                    for (var i = 1; i <= primitive.vertices.length - 2; i++) {
+                        const triangle = {
+                            shape: "triangle",
+                            vertices: [primitive.vertices[0], primitive.vertices[i], primitive.vertices[i + 1]],
+                            color: primitive.color,
+                            xform: primitive.xform
+                        }
+                        preprocessedScene.push(triangle);
+                    }
+                }
+            }
+
+            for (const primitive of preprocessedScene) {
                 const boundingBox = {lowerX: Infinity, upperX: 0, lowerY: Infinity, upperY: 0}
                 for (const vertice of primitive.vertices) {
                     const x = vertice[0]
@@ -44,7 +62,7 @@
                 primitive.boundingBox = boundingBox
             }
 
-            return scene;
+            return preprocessedScene;
         },
 
         createImage: function () {
